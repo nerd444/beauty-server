@@ -1,4 +1,4 @@
-const connection = require("../myconnection");
+const connection = require("../db/myconnection");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -8,22 +8,18 @@ const jwt = require("jsonwebtoken");
 // @ reqest email , passwd , name , phone
 // @ response  success
 exports.createUser = async (req, res, next) => {
-  let email = req.body.email;
+  let nick_name = req.body.nick_name;
   let passwd = req.body.passwd;
   let name = req.body.name;
   let phone = req.body.phone;
 
-  if (!email || !passwd || !name || !phone) {
+  if (!nick_name || !passwd || !name || !phone) {
     res.status(500).json("정보를 입력하세요");
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-  if (!validator.isEmail(email)) {
-    res.status(500).json({ success: false, msg: "이메일 형식이 이상합니다" });
-    return;
-  }
-  let query = `insert into beauty_user(name,email,passwd,phone) values("${name}","${email}","${hashedPasswd}","${phone}")`;
+  let query = `insert into beauty_user(name,passwd,nick_name,phone) values("${name}","${hashedPasswd}","${nick_name}","${phone}")`;
   let user_id;
   try {
     [result] = await connection.query(query);
@@ -32,7 +28,9 @@ exports.createUser = async (req, res, next) => {
   } catch (e) {
     if (e.errno == 1062) {
       // 이메일 중복된것 이다.
-      res.status(500).json({ success: false, message: "중복" });
+      res
+        .status(500)
+        .json({ success: false, message: "이미 있는 닉네임입니다." });
     } else {
       res.status(400).json({ success: false, error: e });
     }
@@ -54,10 +52,10 @@ exports.createUser = async (req, res, next) => {
 // @ reqest email , passwd
 // @ response  success , token
 exports.loginUser = async (req, res, next) => {
-  let email = req.body.email;
+  let nick_name = req.body.nick_name;
   let passwd = req.body.passwd;
 
-  let query = `select * from beauty_user where email = "${email}"`;
+  let query = `select * from beauty_user where nick_name = "${nick_name}"`;
   try {
     [rows] = await connection.query(query);
     let savedPasswd = rows[0].passwd;
