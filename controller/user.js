@@ -98,7 +98,7 @@ exports.logoutUser = async (req, res, next) => {
 //@response  success
 exports.del = async (req, res, next) => {
   let user_id = req.user.id;
-  let query = `delete from beauty_user where user_id = ${user_id}`;
+  let query = `delete from beauty_user where id = ${user_id}`;
   try {
     [result] = await connection.query(query);
     res.status(200).json({ success: true, message: rows });
