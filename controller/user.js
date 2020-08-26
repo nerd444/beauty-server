@@ -1,5 +1,4 @@
-const connection = require("../myconnection");
-const validator = require("validator");
+const connection = require("../db/myconnection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -8,22 +7,18 @@ const jwt = require("jsonwebtoken");
 // @ reqest email , passwd , name , phone
 // @ response  success
 exports.createUser = async (req, res, next) => {
-  let email = req.body.email;
+  let nick_name = req.body.nick_name;
   let passwd = req.body.passwd;
   let name = req.body.name;
   let phone = req.body.phone;
 
-  if (!email || !passwd || !name || !phone) {
+  if (!nick_name || !passwd || !name || !phone) {
     res.status(500).json("정보를 입력하세요");
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-  if (!validator.isEmail(email)) {
-    res.status(500).json({ success: false, msg: "이메일 형식이 이상합니다" });
-    return;
-  }
-  let query = `insert into beauty_user(name,email,passwd,phone) values("${name}","${email}","${hashedPasswd}","${phone}")`;
+  let query = `insert into beauty_user(name,email,passwd,phone) values("${name}","${nick_name}","${hashedPasswd}","${phone}")`;
   let user_id;
   try {
     [result] = await connection.query(query);
@@ -57,7 +52,7 @@ exports.loginUser = async (req, res, next) => {
   let email = req.body.email;
   let passwd = req.body.passwd;
 
-  let query = `select * from beauty_user where email = "${email}"`;
+  let query = `select * from beauty_user where nick_name = "${nick_name}"`;
   try {
     [rows] = await connection.query(query);
     let savedPasswd = rows[0].passwd;
@@ -76,11 +71,9 @@ exports.loginUser = async (req, res, next) => {
       res.status(200).json({ success: true, token: token });
     } catch (e) {
       res.status(400).json({ success: false, error: e });
-      console.log(e);
     }
   } catch (e) {
     res.status(400).json({ success: false, error: e });
-    console.log(e);
   }
 };
 // @desc 로그아웃
