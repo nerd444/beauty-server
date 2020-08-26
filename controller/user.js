@@ -13,7 +13,7 @@ exports.createUser = async (req, res, next) => {
   let phone = req.body.phone;
 
   if (!nick_name || !passwd || !name || !phone) {
-    res.status(500).json({ success: false, error: "정보를 입력해주세요" });
+    res.status(500).json({ success: false, message: "정보를 입력해주세요" });
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
@@ -88,7 +88,7 @@ exports.logoutUser = async (req, res, next) => {
     [result] = await connection.query(query);
     res.status(200).json({ success: true, message: "로그아웃 완료" });
   } catch (e) {
-    res.status(500).json({ success: false, error: e });
+    res.status(400).json({ success: false, error: e });
   }
 };
 
@@ -101,9 +101,9 @@ exports.del = async (req, res, next) => {
   let query = `delete from beauty_user where user_id = ${user_id}`;
   try {
     [result] = await connection.query(query);
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, message: rows });
   } catch (e) {
-    res.status(500).json({ success: false });
+    res.status(400).json({ success: false });
   }
 };
 
@@ -155,7 +155,7 @@ exports.findId = async (req, res, next) => {
       }
     }
   } catch (e) {
-    res.status(500).json({ success: false });
+    res.status(400).json({ success: false });
   }
 };
 
@@ -207,6 +207,6 @@ exports.findPasswd = async (req, res, next) => {
       }
     }
   } catch (e) {
-    res.status(500).json({ success: false, error: e });
+    res.status(400).json({ success: false, error: e });
   }
 };
