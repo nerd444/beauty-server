@@ -1,5 +1,4 @@
 const connection = require("../db/myconnection");
-const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -14,7 +13,7 @@ exports.createUser = async (req, res, next) => {
   let phone = req.body.phone;
 
   if (!nick_name || !passwd || !name || !phone) {
-    res.status(400).json("정보를 입력하세요");
+    res.status(500).json({ success: false, error: "정보를 입력해주세요" });
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
@@ -73,11 +72,9 @@ exports.loginUser = async (req, res, next) => {
       res.status(200).json({ success: true, token: token });
     } catch (e) {
       res.status(400).json({ success: false, error: e });
-      console.log(e);
     }
   } catch (e) {
-    res.status(500).json({ success: false, error: e });
-    console.log(e);
+    res.status(400).json({ success: false, error: e });
   }
 };
 // @desc 로그아웃
