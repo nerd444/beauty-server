@@ -14,16 +14,11 @@ exports.createUser = async (req, res, next) => {
 
   if (!nick_name || !passwd || !name || !phone) {
     res.status(500).json("정보를 입력하세요");
-
-    res.status(400).json("정보를 입력하세요");
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-  let query = `insert into beauty_user(name,email,passwd,phone) values("${name}","${nick_name}","${hashedPasswd}","${phone}")`;
-
   let query = `insert into beauty_user(name,passwd,nick_name,phone) values("${name}","${hashedPasswd}","${nick_name}","${phone}")`;
-
   let user_id;
   try {
     [result] = await connection.query(query);
