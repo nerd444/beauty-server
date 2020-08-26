@@ -26,7 +26,7 @@ exports.createUser = async (req, res, next) => {
     user_id = result.insertId;
   } catch (e) {
     if (e.errno == 1062) {
-      // 이메일 중복된것 이다.
+      // 아이디 중복된것 이다.
       res
         .status(500)
         .json({ success: false, message: "이미 있는 닉네임입니다." });
