@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const connection = require("../myconnection");
+const connection = require("../db/myconnection");
 
 const auth = async (req, res, next) => {
   let token;
