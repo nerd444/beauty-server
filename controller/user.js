@@ -13,7 +13,7 @@ exports.createUser = async (req, res, next) => {
   let phone = req.body.phone;
 
   if (!nick_name || !passwd || !name || !phone) {
-    res.status(500).json("정보를 입력하세요");
+    res.status(500).json({ success: false, error: "정보를 입력해주세요" });
   }
 
   const hashedPasswd = await bcrypt.hash(passwd, 8);
