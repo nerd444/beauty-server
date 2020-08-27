@@ -134,9 +134,9 @@ exports.findPasswd = async (req, res, next) => {
   let nick_name = req.body.nick_name;
   let phone = req.body.phone;
   let new_passwd = req.query.new_passwd;
-  const hashedPasswd = await bcrypt.hash(new_passwd, 8);
+  const resetPasswd = await bcrypt.hash(new_passwd, 8);
 
-  let query = `update beauty_user set passwd = "${hashedPasswd}" where
+  let query = `update beauty_user set passwd = "${restPasswd}" where
        name = "${name}" and phone = "${phone}" and nick_name = "${nick_name}"`;
      try {
         [row] = await connection.query(query);
