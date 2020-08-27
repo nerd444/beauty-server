@@ -133,7 +133,7 @@ exports.findPasswd = async (req, res, next) => {
   let name = req.body.name;
   let nick_name = req.body.nick_name;
   let phone = req.body.phone;
-  let new_passwd = req.body.new_passwd;
+  let new_passwd = req.query.new_passwd;
   const hashedPasswd = await bcrypt.hash(new_passwd, 8);
 
   let query = `update beauty_user set passwd = "${hashedPasswd}" where
