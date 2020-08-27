@@ -231,3 +231,20 @@ exports.checkId = async (req, res, next) => {
     res.status(500).json({ success: false });
   }
 };
+
+//@desc 내정보 불러오기
+//@route GET /api/v1/user/me
+//@request  user_id
+
+exports.myInfo = async (req, res, next) => {
+  let user_id = req.user.id;
+
+  let query = `select * from beauty_user where id = ${user_id}`;
+
+  try {
+    [row] = await connection.query(query);
+    res.status(200).json({ success: true, row: row });
+  } catch (e) {
+    res.status(500).json({ success: false });
+  }
+};
