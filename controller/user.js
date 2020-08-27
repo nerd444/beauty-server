@@ -61,7 +61,7 @@ exports.loginUser = async (req, res, next) => {
     let isMatch = await bcrypt.compare(passwd, savedPasswd);
 
     if (isMatch == false) {
-      res.status(200).json({ success: false, result: isMatch });
+      res.status(400).json({ success: false, result: isMatch });
       return;
     }
     let user_id = rows[0].id;
