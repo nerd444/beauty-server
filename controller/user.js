@@ -113,26 +113,17 @@ exports.del = async (req, res, next) => {
 
 exports.findId = async (req, res, next) => {
   let name = req.body.name;
-  let passwd = req.body.passwd;
   let phone = req.body.phone;
 
   let query = `select * from beauty_user where name = "${name}" and phone = "${phone}"`;
 
   try {
     [rows] = await connection.query(query);
-    let savedPasswd = rows[0].passwd;
+
     let savedName = rows[0].name;
     let savedPhone = rows[0].phone;
 
-    let isMatch = await bcrypt.compare(passwd, savedPasswd);
-
-    if (isMatch == false) {
-      res.status(400).json({
-        success: false,
-        message: "비밀번호가 맞지 않습니다.",
-      });
-      return;
-    } else if (savedName != name) {
+    if (savedName != name) {
       res.status(400).json({
         success: false,
         message: "이름이 맞지 않습니다.",
@@ -146,7 +137,7 @@ exports.findId = async (req, res, next) => {
       return;
     } else {
       query = `select nick_name from beauty_user where name = "${name}" 
-      and phone = "${phone}" and passwd = "${savedPasswd}" `;
+      and phone = "${phone}"  `;
       try {
         [row] = await connection.query(query);
         res.status(200).json({ success: true, ID: row.nick_name });
