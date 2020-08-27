@@ -212,7 +212,7 @@ exports.findPasswd = async (req, res, next) => {
 };
 
 //@desc 아이디 중복확인 api
-//@route  PUT/api/v1/user/findPasswd
+//@route  GET/api/v1/user/findPasswd
 //@request  nickname
 
 exports.checkId = async (req, res, next) => {
