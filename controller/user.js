@@ -108,7 +108,7 @@ exports.del = async (req, res, next) => {
 };
 
 //@desc  아이디찾기
-//@route  GET//api/v1/user/findId
+//@route  GET /api/v1/user/findId
 //@request  name, phone
 
 exports.findId = async (req, res, next) => {
