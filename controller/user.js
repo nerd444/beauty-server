@@ -216,7 +216,7 @@ exports.findPasswd = async (req, res, next) => {
 //@request  nickname
 
 exports.checkId = async (req, res, next) => {
-  let nick_name = req.params.nick_name;
+  let nick_name = req.body.nick_name;
 
   let query = `select * from beauty_user where nick_name = "${nick_name}"`;
   try {
