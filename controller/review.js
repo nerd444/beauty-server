@@ -80,13 +80,31 @@ exports.selectReview = async (req, res, next) => {
 // @desc 내 리뷰 조회
 // @GET api/v1/review/my
 // @request   token
-// @respones  success , rows ,  count
+// @respones  success , rows
 exports.myReview = async (req, res, next) => {
   let nick_name = req.user.nick_name;
   let query = `select * from beauty_review where nick_name= "${nick_name}"`;
   try {
     [rows] = await connection.query(query);
     res.status(200).json({ success: true, message: rows });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+// @desc  리뷰 수정
+// @PUT api/v1/review/update
+// @request   token
+// @respones  success , rows
+exports.updateReview = async (req, res, next) => {
+  let nick_name = req.body.nick_name;
+  let id = req.body.id;
+  let review = req.body.review;
+  let star_point = req.body.star_point;
+
+  query = `update beauty_review  set  review = "${review}" , star_point = ${star_point} where nick_name = "${nick_name}" and id= ${id} `;
+  try {
+    [result] = await connection.query(query);
+    res.status(200).json({ success: true, message: rows, review, star_point });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
