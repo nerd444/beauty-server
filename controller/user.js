@@ -140,7 +140,11 @@ exports.findPasswd = async (req, res, next) => {
        name = "${name}" and phone = "${phone}" and nick_name = "${nick_name}"`;
      try {
         [row] = await connection.query(query);
-        res.status(200).json({ success: true });
+       if (row.affectedRows==1){
+        res.status(200).json({ success: true,row:row });}
+        else{
+          res.status(400).json({success:false})
+        }
       } catch (e) {
         res.status(400).json({ success: false });
       }
