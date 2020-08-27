@@ -115,36 +115,11 @@ exports.findId = async (req, res, next) => {
   let name = req.body.name;
   let phone = req.body.phone;
 
-  let query = `select * from beauty_user where name = "${name}" and phone = "${phone}"`;
-
-  try {
-    [rows] = await connection.query(query);
-
-    let savedName = rows[0].name;
-    let savedPhone = rows[0].phone;
-
-    if (savedName != name) {
-      res.status(400).json({
-        success: false,
-        message: "이름이 맞지 않습니다.",
-      });
-      return;
-    } else if (savedPhone != phone) {
-      res.status(400).json({
-        success: false,
-        message: "전화번호가 맞지 않습니다.",
-      });
-      return;
-    } else {
-      query = `select nick_name from beauty_user where name = "${name}" 
+  let query = `select nick_name from beauty_user where name = "${name}" 
       and phone = "${phone}"  `;
-      try {
-        [row] = await connection.query(query);
-        res.status(200).json({ success: true, ID: row[0].nick_name });
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-    }
+  try {
+    [row] = await connection.query(query);
+    res.status(200).json({ success: true, ID: row[0].nick_name });
   } catch (e) {
     res.status(400).json({ success: false });
   }
