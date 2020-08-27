@@ -69,10 +69,25 @@ exports.selectReview = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: rows,
-      count: rows[0].length,
+      count: rows.length,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
     console.log(e);
+  }
+};
+
+// @desc 내 리뷰 조회
+// @GET api/v1/review/my
+// @request   token
+// @respones  success , rows ,  count
+exports.myReview = async (req, res, next) => {
+  let nick_name = req.user.nick_name;
+  let query = `select * from beauty_review where nick_name= "${nick_name}"`;
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({ success: true, message: rows });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
   }
 };
