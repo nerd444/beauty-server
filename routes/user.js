@@ -16,7 +16,7 @@ router.route("/login").post(loginUser);
 router.route("/logout").delete(auth, logoutUser);
 router.route("/del").delete(auth, del);
 router.route("/findId").post(findId);
-router.route("/findPasswd").put(findPasswd);
+router.route("/findPasswd").post(findPasswd);
 router.route("/checkID").post(checkId);
 router.route("/myInfo").get(auth, myInfo);
 module.exports = router;
