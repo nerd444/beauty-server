@@ -135,46 +135,17 @@ exports.findPasswd = async (req, res, next) => {
   let phone = req.body.phone;
   let new_passwd = req.body.new_passwd;
   const hashedPasswd = await bcrypt.hash(new_passwd, 8);
-  let query = `select * from beauty_user where name = 
-  "${name}" and phone = "${phone}" and nick_name = "${nick_name}"`;
 
-  try {
-    [rows] = await connection.query(query);
-    let savedNick_name = rows[0].nick_name;
-    let savedName = rows[0].name;
-    let savedPhone = rows[0].phone;
-
-    if (savedNick_name != nick_name) {
-      res.status(400).json({
-        success: false,
-        message: "아이디가 맞지 않습니다.",
-      });
-      return;
-    } else if (savedName != name) {
-      res.status(400).json({
-        success: false,
-        message: "이름이 맞지 않습니다.",
-      });
-      return;
-    } else if (savedPhone != phone) {
-      res.status(400).json({
-        success: false,
-        message: "전화번호가 맞지 않습니다.",
-      });
-      return;
-    } else {
-      query = `update beauty_user set passwd = "${hashedPasswd}" where
+  let query = `update beauty_user set passwd = "${hashedPasswd}" where
        name = "${name}" and phone = "${phone}" and nick_name = "${nick_name}"`;
-      try {
+     try {
         [row] = await connection.query(query);
         res.status(200).json({ success: true });
       } catch (e) {
         res.status(400).json({ success: false });
       }
-    }
-  } catch (e) {
-    res.status(400).json({ success: false, error: e });
-  }
+    
+  
 };
 
 //@desc 아이디 중복확인 api
