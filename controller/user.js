@@ -149,7 +149,7 @@ exports.findId = async (req, res, next) => {
       and phone = "${phone}" and passwd = "${savedPasswd}" `;
       try {
         [row] = await connection.query(query);
-        res.status(200).json({ success: true, ID: row });
+        res.status(200).json({ success: true, ID: row.nick_name });
       } catch (e) {
         res.status(400).json({ success: false });
       }
@@ -243,15 +243,13 @@ exports.myInfo = async (req, res, next) => {
 
   try {
     [row] = await connection.query(query);
-    res
-      .status(200)
-      .json({
-        success: true,
-        name: row[0].name,
-        nick_name: row[0].nick_name,
-        phone: row[0].phone,
-        created_at: row[0].created_at,
-      });
+    res.status(200).json({
+      success: true,
+      name: row[0].name,
+      nick_name: row[0].nick_name,
+      phone: row[0].phone,
+      created_at: row[0].created_at,
+    });
   } catch (e) {
     res.status(500).json({ success: false });
   }
