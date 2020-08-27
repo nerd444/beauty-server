@@ -210,3 +210,24 @@ exports.findPasswd = async (req, res, next) => {
     res.status(500).json({ success: false, error: e });
   }
 };
+
+//@desc 아이디 중복확인 api
+//@route  PUT/api/v1/user/findPasswd
+//@request  nickname
+
+exports.checkId = async (req, res, next) => {
+  let nick_name = req.params.nick_name;
+
+  let query = `select * from beauty_user where nick_name = "${nick_name}"`;
+  try {
+    [row] = await connection.query(query);
+    if (row.length == 0) {
+      res.status(200).json({ success: true });
+      return;
+    } else {
+      res.status(400).json({ success: false });
+    }
+  } catch (e) {
+    res.status(500).json({ success: false });
+  }
+};

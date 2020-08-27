@@ -6,6 +6,7 @@ const {
   del,
   findId,
   findPasswd,
+  checkId,
 } = require("../controller/user");
 const router = express.Router();
 const auth = require("../middleware/auth");
@@ -15,4 +16,5 @@ router.route("/logout").delete(auth, logoutUser);
 router.route("/del").delete(auth, del);
 router.route("/findId").post(findId);
 router.route("/findPasswd").put(findPasswd);
+router.route("/checkID").get(checkId);
 module.exports = router;
