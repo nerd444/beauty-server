@@ -2,7 +2,6 @@ const express = require("express");
 
 const router = express.Router();
 
-const auth = require("../middleware/auth");
 const {
   addReview,
   selectReview,
@@ -10,9 +9,9 @@ const {
   updateReview,
 } = require("../controller/review");
 
-router.route("/add").post(auth, addReview);
+router.route("/add").post(addReview);
 router.route("/select").get(selectReview);
-router.route("/my").get(auth, myReview);
-router.route("/update").put(auth, updateReview);
+router.route("/my").get(myReview);
+router.route("/update").put(updateReview);
 
 module.exports = router;
