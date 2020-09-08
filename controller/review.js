@@ -14,7 +14,7 @@ exports.addReview = async (req, res, next) => {
     res.status(500).json({ success: false, message: "정보를 입력해주세요" });
   }
 
-  if (star_point > 9) {
+  if (star_point > 10) {
     res.status(500).json({ success: false, message: "별점이 이상합니다" });
   }
 
