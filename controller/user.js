@@ -33,3 +33,16 @@ exports.login = async (req,res,next)=>{
           }
         }
 }
+
+exports.check = async (req,res,next)=>{
+    let email = req.body.email
+
+    let query = `select * from beauty_user where email = "${email}"`
+
+    try {
+        [rows] = await connection.query(query)
+        res.status(200).json({success:true, email:rows[0].email, nick_name:rows[0].nick_name})
+    } catch (e) {
+        res.status(500).json({success:false})
+    }
+}
