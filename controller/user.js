@@ -1,5 +1,5 @@
 const connection = require("../db/myconnection");
-
+const validator = require("validator");
 
 // desc 유저 닉네임 이메일 생성날짜 
 // @POST api/v1/user/
@@ -11,7 +11,12 @@ exports.login = async (req,res,next)=>{
     let email = req.body.email
     let nick_name = req.body.nick_name
     
-    let query = `insert into beauty_user (email, nick_name) value ("${email}","${nick_name}")`
+    if (!validator.isEmail(email)) {
+        res.status(500).json({ success: false });
+        return;
+      }
+
+    let query = `insert into beauty_user (email, nick_name) values ("${email}","${nick_name}")`
 
     try {
         [row] = await connection.query(query)
