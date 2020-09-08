@@ -41,7 +41,7 @@ exports.check = async (req,res,next)=>{
 
     try {
         [rows] = await connection.query(query)
-        res.status(200).json({success:true, email:rows[0].email, nick_name:rows[0].nick_name})
+        res.status(200).json({success:true, email:rows[0].email, nick_name:rows[0].nick_name,created_at:rows[0].created_at})
     } catch (e) {
         res.status(500).json({success:false})
     }
