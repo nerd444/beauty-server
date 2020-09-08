@@ -35,7 +35,7 @@ exports.login = async (req,res,next)=>{
 }
 
 exports.check = async (req,res,next)=>{
-    let email = req.body.email
+    let email = req.query.email
 
     let query = `select * from beauty_user where email = "${email}"`
 
