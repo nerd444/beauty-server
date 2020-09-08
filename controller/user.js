@@ -11,17 +11,16 @@ exports.login = async (req,res,next)=>{
     let email = req.body.email
     let nick_name = req.body.nick_name
     
-    if (!validator.isEmail(email)) {
-        res.status(500).json({ success: false });
-        return;
-      }
+
 
     let query = `insert into beauty_user (email, nick_name) values ("${email}","${nick_name}")`
 
     try {
         [row] = await connection.query(query)
-        res.status(200).json({ success: true, nick_name: row[0].nick_name });
+        res.status(200).json({ success: true , row:row});
+        
     } catch (e) {
+       
         if (e.errno == 1062) {
             // 닉네임 중복된것 이다.
             res
@@ -29,8 +28,8 @@ exports.login = async (req,res,next)=>{
               .json({ success: false, errno: 1 });
             return;
           } else {
-            res.status(500).json({ success: false, error: e });
-            return;
+            res.status(500).json({ success: false});
+           
           }
         }
 }
