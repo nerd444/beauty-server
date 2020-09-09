@@ -57,7 +57,7 @@ exports.selectReview = async (req, res, next) => {
   try {
     [rows] = await connection.query(query);
     res.status(200).json({
-      success: true,
+      success: true,rows:rows,
       cnt: rows.length,
     });
   } catch (e) {
