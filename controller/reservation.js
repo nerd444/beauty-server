@@ -33,7 +33,8 @@ exports.order_record = async (req, res, next) => {
     [rows] = await connection.query(query);
     res.status(200).json({
       success: true,
-      rows: rows,
+      menu: rows[0].menu,
+      price: rows[0].price,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
