@@ -3,29 +3,19 @@ const { off } = require("../db/myconnection");
 
 // @desc 리뷰 작성
 // @POST api/v1/review/add
-// @request   nick_name(auth) , review , star_point
-// @respones  success ,nick_name: rows[0].nick_name,  review,star_point
+// @request   nick_name(auth) , review , rating
+// @respones  success ,nick_name: rows[0].nick_name,  review:rows[i].review
 exports.addReview = async (req, res, next) => {
-  let nick_name = req.user.nick_name;
+  let nick_name = req.query.nick_name;
   let review = req.body.review;
-  let star_point = req.body.star_point;
+  let rating = req.body.rating;
 
-  if (!nick_name || !review) {
-    res.status(500).json({ success: false, message: "정보를 입력해주세요" });
-  }
 
-  if (star_point > 10) {
-    res.status(500).json({ success: false, message: "별점이 이상합니다" });
-  }
-
-  let query = `insert into beauty_review(nick_name , review , star_point) values("${nick_name}" , "${review}" , ${star_point})`;
+  let query = `insert into beauty_review(nick_name , review , rating) values("${nick_name}" , "${review}" , ${rating})`;
   try {
     [result] = await connection.query(query);
     res.status(200).json({
-      success: true,
-      nick_name: rows[0].nick_name,
-      review,
-      star_point,
+      success: true
     });
     console.log(result);
   } catch (e) {
@@ -38,14 +28,14 @@ exports.addReview = async (req, res, next) => {
 // @request   nick_name(auth) , review , star_point
 // @respones  success , rows
 exports.deleteReview = async (req, res, next) => {
-  let nick_name = req.user.nick_name;
-  let review = req.body.review;
-  let star_point = req.body.star_point;
+  let nick_name = req.query.nick_name;
+  let review = req.query.review;
+  let rating = req.query.rating;
 
-  let query = `delete from beauty_review where nick_name = "${nick_name}" and review = "${review}" and  star_point= ${star_point}`;
+  let query = `delete from beauty_review where nick_name = "${nick_name}" and review = "${review}" and  rating= ${rating}`;
   try {
     [result] = await connection.query(query);
-    res.status(200).json({ success: true, message: result });
+    res.status(200).json({ success: true });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
@@ -58,7 +48,7 @@ exports.deleteReview = async (req, res, next) => {
 exports.selectReview = async (req, res, next) => {
   let offset = req.query.offset;
   let limit = req.query.limit;
-  let query = `select * from beauty_review limit ${offset},${limit}`;
+  let query = `select * from beauty_review order by created_at desc limit ${offset},${limit} `;
 
   if (!offset || !limit) {
     res.status(500).json({ success: false, message: "정보입력이 이상합니다" });
@@ -67,9 +57,8 @@ exports.selectReview = async (req, res, next) => {
   try {
     [rows] = await connection.query(query);
     res.status(200).json({
-      success: true,
-      message: rows,
-      count: rows.length,
+      success: true,rows:rows,
+      cnt: rows.length,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
@@ -82,11 +71,13 @@ exports.selectReview = async (req, res, next) => {
 // @request   token
 // @respones  success , rows
 exports.myReview = async (req, res, next) => {
-  let nick_name = req.user.nick_name;
-  let query = `select * from beauty_review where nick_name= "${nick_name}"`;
+  let nick_name = req.query.nick_name;
+  let offset = req.query.offset;
+  let limit = req.query.limit;
+  let query = `select * from beauty_review where nick_name= "${nick_name}" order by created_at desc limit ${offset},${limit} `;
   try {
     [rows] = await connection.query(query);
-    res.status(200).json({ success: true, message: rows });
+    res.status(200).json({ success: true, cnt:rows.length });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
@@ -99,12 +90,12 @@ exports.updateReview = async (req, res, next) => {
   let nick_name = req.body.nick_name;
   let id = req.body.id;
   let review = req.body.review;
-  let star_point = req.body.star_point;
+  let rating = req.body.rating;
 
-  query = `update beauty_review  set  review = "${review}" , star_point = ${star_point} where nick_name = "${nick_name}" and id= ${id} `;
+  query = `update beauty_review  set  review = "${review}" , rating = ${rating} where nick_name = "${nick_name}" and id= ${id} `;
   try {
     [result] = await connection.query(query);
-    res.status(200).json({ success: true, message: rows, review, star_point });
+    res.status(200).json({ success: true });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }

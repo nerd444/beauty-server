@@ -29,11 +29,17 @@ exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
   let query = `select * from beauty_reservation where nick_name = "${nick_name}"`;
+
   try {
     [rows] = await connection.query(query);
+    for (var i = 0; i < rows.length; i++) {
+      menu = rows[i].menu;
+      price = rows[i].price;
+    }
     res.status(200).json({
       success: true,
-      rows: rows,
+      menu: menu,
+      price: price,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
