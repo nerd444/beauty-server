@@ -21,6 +21,7 @@ exports.order = async (req, res, next) => {
   }
 };
 
+
 // @desc        주문기록보기
 // @GET         api/v1/reservation/record
 // @request     menu, price, nick_name
@@ -28,13 +29,21 @@ exports.order = async (req, res, next) => {
 exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select menu as 메뉴,price as 금액 from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select * from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
+   let menus = [];
+   let prices = [];
+    for (let i = 0; i < rows.length; i++) {
+      let menu = rows[i].menu;
+      let price = rows[i].price;  
+      menus[i]= menu;
+      prices[i]= price;
+    }
     res.status(200).json({
       success: true,
-      rows:rows
+      메뉴 : menus, 금액 : prices
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
