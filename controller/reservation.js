@@ -21,7 +21,6 @@ exports.order = async (req, res, next) => {
   }
 };
 
-
 // @desc        주문기록보기
 // @GET         api/v1/reservation/record
 // @request     menu, price, nick_name
@@ -33,17 +32,18 @@ exports.order_record = async (req, res, next) => {
 
   try {
     [rows] = await connection.query(query);
-   let menus = [];
-   let prices = [];
+    let menus = [];
+    let prices = [];
     for (let i = 0; i < rows.length; i++) {
       let menu = rows[i].menu;
-      let price = rows[i].price;  
-      menus[i]= menu;
-      prices[i]= price;
+      let price = rows[i].price;
+      menus[i] = menu;
+      prices[i] = price;
     }
     res.status(200).json({
       success: true,
-      메뉴 : menus, 금액 : prices
+      menu: menus,
+      price: prices,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
