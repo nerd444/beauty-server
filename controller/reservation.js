@@ -23,28 +23,39 @@ exports.order = async (req, res, next) => {
 
 // @desc        주문기록보기
 // @GET         api/v1/reservation/record
-// @request     menu, price, nick_name
+// @request     nick_name
 // @respones    success , rows
 exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select * from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select menu, price from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
-    let menus = [];
-    let prices = [];
-    for (let i = 0; i < rows.length; i++) {
-      let menu = rows[i].menu;
-      let price = rows[i].price;
-      menus[i] = menu;
-      prices[i] = price;
-    }
     res.status(200).json({
       success: true,
-      menu: menus,
-      price: prices,
+      rows: rows,
       cnt: rows.length,
+    });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+
+// @desc        총가격
+// @GET         api/v1/reservation/total
+// @request     nick_name
+// @respones    success , total
+exports.order_total = async (req, res, next) => {
+  let nick_name = req.query.nick_name;
+
+  let query = `select sum(replace(replace(price, ",",""), "원", "")) as total from beauty_reservation where nick_name = "${nick_name}"`;
+
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({
+      success: true,
+      total: rows,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
