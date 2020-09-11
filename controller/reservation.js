@@ -44,6 +44,7 @@ exports.order_record = async (req, res, next) => {
       success: true,
       menu: menus,
       price: prices,
+      cnt: rows.length,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
@@ -60,6 +61,25 @@ exports.order_cancle = async (req, res, next) => {
   let price = req.query.price;
 
   let query = `delete from beauty_reservation where nick_name = "${nick_name}" and menu = "${menu}" and price = "${price}"`;
+
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({
+      success: true,
+    });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+
+// @desc        주문취소(뒤로가기)
+// @DELETE      api/v1/reservation/cancle
+// @request     menu, price, nick_name
+// @respones    success , rows
+exports.cancle = async (req, res, next) => {
+  let nick_name = req.query.nick_name;
+
+  let query = `delete from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
