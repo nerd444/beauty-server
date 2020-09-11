@@ -43,7 +43,7 @@ exports.order_record = async (req, res, next) => {
 };
 
 // @desc        총가격
-// @GET         api/v1/reservation/total
+// @GET         api/v1/reservation
 // @request     nick_name
 // @respones    success , total
 exports.order_total = async (req, res, next) => {
