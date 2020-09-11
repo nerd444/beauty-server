@@ -55,7 +55,7 @@ exports.order_total = async (req, res, next) => {
     [rows] = await connection.query(query);
     res.status(200).json({
       success: true,
-      total: rows[0],
+      total: rows[0].total,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
