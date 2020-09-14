@@ -29,7 +29,7 @@ exports.order = async (req, res, next) => {
 exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select menu, price from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select menu, price, take_out from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
