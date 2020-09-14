@@ -8,9 +8,8 @@ exports.order = async (req, res, next) => {
   let menu = req.body.menu;
   let price = req.body.price;
   let nick_name = req.body.nick_name;
-  let take_out = req.body.take_out;
 
-  let query = `insert into beauty_reservation (menu, price, nick_name, take_out) values ("${menu}", "${price}", "${nick_name}", "${take_out}")`;
+  let query = `insert into beauty_reservation (menu, price, nick_name) values ("${menu}", "${price}", "${nick_name}")`;
   try {
     [rows] = await connection.query(query);
     res.status(200).json({
@@ -38,6 +37,24 @@ exports.order_record = async (req, res, next) => {
       rows: rows,
       cnt: rows.length,
     });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+
+// @desc        take_out 여부
+// @PUT         api/v1/reservation/take_out
+// @request     nick_name, take_out
+// @respones    success , rows
+exports.take_out = async (req, res, next) => {
+  let nick_name = req.query.nick_name;
+  let take_out = req.query.take_out;
+
+  let query = `update beauty_reservation set take_out = "${take_out}" where nick_name = "${nick_name}"`;
+
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({ success: true, rows: rows });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
