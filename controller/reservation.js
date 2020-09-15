@@ -28,7 +28,7 @@ exports.order = async (req, res, next) => {
 exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select menu, price, take_out from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select menu, price, take_out, people_number, time from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
@@ -42,15 +42,18 @@ exports.order_record = async (req, res, next) => {
   }
 };
 
-// @desc        take_out 여부
-// @PUT         api/v1/reservation/take_out
+// @desc        추가 필수 사항
+// @PUT         api/v1/reservation/add
 // @request     nick_name, take_out
 // @respones    success , rows
-exports.take_out = async (req, res, next) => {
+exports.add = async (req, res, next) => {
   let nick_name = req.query.nick_name;
   let take_out = req.query.take_out;
+  let people_number = req.query.people_number;
+  let time = req.query.time;
 
-  let query = `update beauty_reservation set take_out = "${take_out}" where nick_name = "${nick_name}"`;
+  let query = `update beauty_reservation set take_out = "${take_out}", 
+  people_number = "${people_number}", time = "${time}" where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
