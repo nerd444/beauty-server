@@ -10,12 +10,11 @@ exports.addReview = async (req, res, next) => {
   let review = req.body.review;
   let rating = req.body.rating;
 
-
   let query = `insert into beauty_review(nick_name , review , rating) values("${nick_name}" , "${review}" , ${rating})`;
   try {
     [result] = await connection.query(query);
     res.status(200).json({
-      success: true
+      success: true,
     });
     console.log(result);
   } catch (e) {
@@ -57,7 +56,8 @@ exports.selectReview = async (req, res, next) => {
   try {
     [rows] = await connection.query(query);
     res.status(200).json({
-      success: true,rows:rows,
+      success: true,
+      rows: rows,
       cnt: rows.length,
     });
   } catch (e) {
@@ -77,7 +77,7 @@ exports.myReview = async (req, res, next) => {
   let query = `select * from beauty_review where nick_name= "${nick_name}" order by created_at desc limit ${offset},${limit} `;
   try {
     [rows] = await connection.query(query);
-    res.status(200).json({ success: true, cnt:rows.length });
+    res.status(200).json({ success: true, rows, cnt: rows.length });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
