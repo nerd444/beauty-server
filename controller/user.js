@@ -123,16 +123,14 @@ exports.loginUser = async (req, res, next) => {
   and phone_number = "${phone_number}"`;
   try {
     [rows] = await connection.query(query);
-    res
-      .status(200)
-      .json({
-        success: true,
-        nick_name: row[0].nick_name,
-        phone_number: row[0].phone_number,
-        email: row[0].email,
-        created_at: row[0].created_at,
-        info_agree: row[0].info_agree,
-      });
+    res.status(200).json({
+      success: true,
+      nick_name: rows[0].nick_name,
+      phone_number: rows[0].phone_number,
+      email: rows[0].email,
+      created_at: rows[0].created_at,
+      info_agree: rows[0].info_agree,
+    });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
