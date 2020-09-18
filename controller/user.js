@@ -116,8 +116,8 @@ exports.beautyUser = async (req, res, next) => {
 // @ reqest email , passwd
 // @ response  success , token
 exports.loginUser = async (req, res, next) => {
-  let nick_name = req.body.nick_name;
-  let phone_number = req.body.phone_number;
+  let nick_name = req.query.nick_name;
+  let phone_number = req.query.phone_number;
 
   let query = `select * from beauty_user where nick_name = "${nick_name}" 
   and phone_number = "${phone_number}"`;
