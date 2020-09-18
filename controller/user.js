@@ -28,24 +28,6 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.check = async (req, res, next) => {
-  let email = req.query.email;
-
-  let query = `select * from beauty_user where email = "${email}"`;
-
-  try {
-    [rows] = await connection.query(query);
-    res.status(200).json({
-      success: true,
-      email: rows[0].email,
-      nick_name: rows[0].nick_name,
-      created_at: rows[0].created_at,
-    });
-  } catch (e) {
-    res.status(500).json({ success: false });
-  }
-};
-
 exports.change = async (req, res, next) => {
   let phone_number = req.query.phone_number;
   let new_nick_name = req.query.new_nick_name;
@@ -202,14 +184,14 @@ exports.myInfo = async (req, res, next) => {
    and  phone_number = "${phone_number}"`;
 
   try {
-    [row] = await connection.query(query);
+    [rows] = await connection.query(query);
     res.status(200).json({
       success: true,
-      nick_name: row[0].nick_name,
-      phone_number: row[0].phone_number,
-      email: row[0].email,
-      created_at: row[0].created_at,
-      info_agree: row[0].info_agree,
+      nick_name: rows[0].nick_name,
+      phone_number: rows[0].phone_number,
+      email: rows[0].email,
+      created_at: rows[0].created_at,
+      info_agree: rows[0].info_agree,
     });
   } catch (e) {
     res.status(500).json({ success: false });

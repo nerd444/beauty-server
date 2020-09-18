@@ -4,7 +4,6 @@ const router = express.Router();
 
 const {
   login,
-  check,
   change,
   del,
   beautyUser,
@@ -16,7 +15,7 @@ const {
 } = require("../controller/user");
 
 router.route("/add").post(login);
-router.route("/check").get(check);
+
 router.route("/change").put(change);
 router.route("/del").delete(del);
 router.route("/beauty_add").post(beautyUser);
