@@ -112,7 +112,7 @@ exports.beautyUser = async (req, res, next) => {
 };
 
 // @desc 로그인
-// @route POST /api/v1/user/login
+// @route GET /api/v1/user/login
 // @ reqest email , passwd
 // @ response  success , token
 exports.loginUser = async (req, res, next) => {

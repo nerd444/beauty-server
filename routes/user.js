@@ -20,7 +20,7 @@ router.route("/check").get(check);
 router.route("/change").put(change);
 router.route("/del").delete(del);
 router.route("/beauty_add").post(beautyUser);
-router.route("/login").post(loginUser);
+router.route("/login").get(loginUser);
 router.route("/delete_user").delete(deleteUser);
 router.route("/find_id").get(findId);
 router.route("/check_id").get(checkId);
