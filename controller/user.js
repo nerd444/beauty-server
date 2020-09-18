@@ -163,7 +163,7 @@ exports.findId = async (req, res, next) => {
   let query = `select nick_name from beauty_user where phone_number = "${phone_number}"  `;
   try {
     [row] = await connection.query(query);
-    res.status(200).json({ success: true, ID: row[0].nick_name });
+    res.status(200).json({ success: true, nick_name: row[0].nick_name });
   } catch (e) {
     res.status(400).json({ success: false });
   }
