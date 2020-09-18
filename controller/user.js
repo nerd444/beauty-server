@@ -28,6 +28,24 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.check = async (req, res, next) => {
+  let email = req.query.email;
+
+  let query = `select * from beauty_user where email = "${email}"`;
+
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({
+      success: true,
+      email: rows[0].email,
+      nick_name: rows[0].nick_name,
+      created_at: rows[0].created_at,
+    });
+  } catch (e) {
+    res.status(500).json({ success: false });
+  }
+};
+
 exports.change = async (req, res, next) => {
   let phone_number = req.query.phone_number;
   let new_nick_name = req.query.new_nick_name;
