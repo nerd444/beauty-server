@@ -68,8 +68,8 @@ exports.change = async (req, res, next) => {
 };
 
 exports.del = async (req, res, next) => {
-  let phone_number = req.body.phone_number;
-  let nick_name = req.body.nick_name;
+  let phone_number = req.query.phone_number;
+  let nick_name = req.query.nick_name;
 
   let query = `delete from beauty_user where phone_number = "${phone_number}" 
   and nick_name = "${nick_name}"`;
