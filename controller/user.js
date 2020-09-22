@@ -68,11 +68,9 @@ exports.change = async (req, res, next) => {
 };
 
 exports.del = async (req, res, next) => {
-  let phone_number = req.query.phone_number;
   let nick_name = req.query.nick_name;
 
-  let query = `delete from beauty_user where phone_number = "${phone_number}" 
-  and nick_name = "${nick_name}"`;
+  let query = `delete from beauty_user where nick_name = "${nick_name}"`;
 
   try {
     [result] = await connection.query(query);
