@@ -196,10 +196,8 @@ exports.checkId = async (req, res, next) => {
 
 exports.myInfo = async (req, res, next) => {
   let nick_name = req.query.nick_name;
-  let phone_number = req.query.phone_number;
 
-  let query = `select * from beauty_user where nick_name = "${nick_name}"
-   and  phone_number = "${phone_number}"`;
+  let query = `select * from beauty_user where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
