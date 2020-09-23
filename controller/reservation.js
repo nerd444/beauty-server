@@ -144,8 +144,7 @@ exports.my_order_record = async (req, res, next) => {
     }
     res.status(200).json({
       success: true,
-      메뉴: menus,
-      금액: prices,
+      menus: menus,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
