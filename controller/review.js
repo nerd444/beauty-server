@@ -6,7 +6,7 @@ const { off } = require("../db/myconnection");
 // @request   nick_name(auth) , review , rating
 // @respones  success ,nick_name: rows[0].nick_name,  review:rows[i].review
 exports.addReview = async (req, res, next) => {
-  let nick_name = req.body.nick_name;
+  let nick_name = req.query.nick_name;
   let review = req.body.review;
   let rating = req.body.rating;
 
