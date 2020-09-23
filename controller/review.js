@@ -27,8 +27,12 @@ exports.addReview = async (req, res, next) => {
 // @request   nick_name(auth) , review , star_point
 // @respones  success , rows
 exports.deleteReview = async (req, res, next) => {
-  let review_id = req.query.review_id;
-  let query = `delete from beauty_review where id = ${review_id}`;
+  let nick_name = req.query.nick_name;
+  let review = req.query.review;
+  let rating = req.query.rating;
+
+  let query = `delete from beauty_review where nick_name = "${nick_name}" and review = 
+  "${review}" and  rating= ${rating}`;
   try {
     [result] = await connection.query(query);
     res.status(200).json({ success: true });
