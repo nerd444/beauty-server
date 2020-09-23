@@ -1,4 +1,5 @@
 const connection = require("../db/myconnection");
+const { off } = require("../db/myconnection");
 
 // @desc 리뷰 작성
 // @POST api/v1/review/add
@@ -26,10 +27,12 @@ exports.addReview = async (req, res, next) => {
 // @request   nick_name(auth) , review , star_point
 // @respones  success , rows
 exports.deleteReview = async (req, res, next) => {
-  let nick_name = req.body.nick_name;
-  let id = req.body.id;
+  let nick_name = req.query.nick_name;
+  let review = req.query.review;
+  let rating = req.query.rating;
 
-  let query = `delete from beauty_review where nick_name = "${nick_name}" and id = ${id}`;
+  let query = `delete from beauty_review where nick_name = "${nick_name}" and review = 
+  "${review}" and  rating= ${rating}`;
   try {
     [result] = await connection.query(query);
     res.status(200).json({ success: true });
