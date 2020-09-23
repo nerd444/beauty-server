@@ -35,6 +35,9 @@ exports.order_record = async (req, res, next) => {
     res.status(200).json({
       success: true,
       rows: rows,
+      take_out: rows[0].take_out,
+      people_number: rows[0].people_number,
+      time: rows[0].time,
       cnt: rows.length,
     });
   } catch (e) {
@@ -144,8 +147,7 @@ exports.my_order_record = async (req, res, next) => {
     }
     res.status(200).json({
       success: true,
-      메뉴: menus,
-      금액: prices,
+      menus: menus,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
