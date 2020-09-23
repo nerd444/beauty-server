@@ -30,6 +30,7 @@ exports.deleteReview = async (req, res, next) => {
   let nick_name = req.query.nick_name;
   let review = req.query.review;
   let rating = req.query.rating;
+
   let query = `delete from beauty_review where nick_name = "${nick_name}" and review = 
   "${review}" and  rating= ${rating}`;
   try {
