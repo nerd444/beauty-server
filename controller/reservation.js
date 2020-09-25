@@ -151,7 +151,7 @@ exports.cancle = async (req, res, next) => {
 exports.my_order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select group_concat(menu separator' , ') as menu , sum(replace(replace(price, ","," "), "원", " ")) as price , time  from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select group_concat(menu separator' , ') as menu , sum(replace(replace(price, ","," "), "원", " ")) as price , time , take_out , people_number   from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
