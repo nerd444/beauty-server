@@ -10,6 +10,7 @@ const {
   my_order_record,
   add_take_out,
   add_store,
+  PaymentOrder,
 } = require("../controller/reservation");
 
 router.route("/order").post(order);
@@ -20,5 +21,6 @@ router.route("/add_take_out").put(add_take_out);
 router.route("/delete").delete(order_cancle);
 router.route("/cancle").delete(cancle);
 router.route("/").get(order_total);
+router.route("/paymentorder").post(PaymentOrder);
 
 module.exports = router;

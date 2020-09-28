@@ -1,6 +1,6 @@
 const connection = require("../db/myconnection");
 
-// @desc        주문(동방신기)
+// @desc        주문(동방신기)(결제할때 리스트에 추가해주는거)
 // @POST        api/v1/reservation/order
 // @request     menu, price, nick_name
 // @respones    success , rows
@@ -21,7 +21,28 @@ exports.order = async (req, res, next) => {
   }
 };
 
-// @desc        주문기록보기
+// @desc        주문완료 (내가 최종으로 주문한 리스트 보여주기 위한 api)
+// @POST        api/v1/reservation/paymentorder
+// @request     menu, price, nick_name
+// @respones    success , rows
+exports.PaymentOrder = async (req, res, next) => {
+  let menu = req.body.menu;
+  let price = req.body.price;
+  let nick_name = req.body.nick_name;
+
+  let query = `insert into reservations (menu, price, nick_name) values ("${menu}", "${price}", "${nick_name}")`;
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({
+      success: true,
+      rows: rows,
+    });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+
+// @desc        주문기록보기(결제할때 클라이언트가 볼 수 있게 보여주기)
 // @GET         api/v1/reservation/record
 // @request     nick_name
 // @respones    success , rows
@@ -151,7 +172,7 @@ exports.cancle = async (req, res, next) => {
 exports.my_order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `select group_concat(menu separator' , ') as menu , sum(replace(replace(price, ","," "), "원", " ")) as price , time , take_out , people_number   from beauty_reservation where nick_name = "${nick_name}"`;
+  let query = `select group_concat(menu separator' , ') as menu , sum(replace(replace(price, ","," "), "원", " ")) as price , time , take_out , people_number   from reservations where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
