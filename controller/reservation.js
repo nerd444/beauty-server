@@ -64,9 +64,9 @@ exports.order_record = async (req, res, next) => {
 // @request     nick_name, take_out
 // @respones    success , rows
 exports.add_store = async (req, res, next) => {
-  let nick_name = req.query.nick_name;
-  let people_number = req.query.people_number;
-  let time = req.query.time;
+  let nick_name = req.body.nick_name;
+  let people_number = req.body.people_number;
+  let time = req.body.time;
 
   let query =
     `update beauty_reservation set take_out = 0, 
@@ -87,8 +87,8 @@ exports.add_store = async (req, res, next) => {
 // @request     nick_name, take_out
 // @respones    success , rows
 exports.add_take_out = async (req, res, next) => {
-  let nick_name = req.query.nick_name;
-  let time = req.query.time;
+  let nick_name = req.body.nick_name;
+  let time = req.body.time;
 
   let query =
     `update beauty_reservation set take_out = 1, 
@@ -129,9 +129,9 @@ exports.order_total = async (req, res, next) => {
 // @request     menu, price, nick_name
 // @respones    success , rows
 exports.order_cancle = async (req, res, next) => {
-  let nick_name = req.query.nick_name;
-  let menu = req.query.menu;
-  let price = req.query.price;
+  let nick_name = req.body.nick_name;
+  let menu = req.body.menu;
+  let price = req.body.price;
 
   let query = `delete from beauty_reservation where nick_name = "${nick_name}" and menu = "${menu}" and price = "${price}"`;
 
@@ -150,7 +150,7 @@ exports.order_cancle = async (req, res, next) => {
 // @request     menu, price, nick_name
 // @respones    success , rows
 exports.cancle = async (req, res, next) => {
-  let nick_name = req.query.nick_name;
+  let nick_name = req.body.nick_name;
 
   let query = `delete from beauty_reservation where nick_name = "${nick_name}"`;
 
