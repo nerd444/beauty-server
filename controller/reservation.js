@@ -74,8 +74,11 @@ exports.add_store = async (req, res, next) => {
   let people_number = req.query.people_number;
   let time = req.query.time;
 
-  let query = `update beauty_reservation set take_out = 0, 
-  people_number = "${people_number}", time = "${time}" where nick_name = "${nick_name}"`;
+  let query =
+    `update beauty_reservation set take_out = 0, 
+  people_number = "${people_number}", time = "${time}" where nick_name = "${nick_name}";` +
+    `update reservations set take_out = 0, 
+  people_number = "${people_number}", time = "${time}" where nick_name = "${nick_name}";`;
 
   try {
     [rows] = await connection.query(query);
@@ -93,7 +96,10 @@ exports.add_take_out = async (req, res, next) => {
   let nick_name = req.query.nick_name;
   let time = req.query.time;
 
-  let query = `update beauty_reservation set take_out = 1, 
+  let query =
+    `update beauty_reservation set take_out = 1, 
+  time = "${time}" where nick_name = "${nick_name}";` +
+    `update reservations set take_out = 1, 
   time = "${time}" where nick_name = "${nick_name}"`;
 
   try {
