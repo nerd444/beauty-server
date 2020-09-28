@@ -33,10 +33,7 @@ exports.PaymentOrder = async (req, res, next) => {
   let query = `insert into reservations (menu, price, nick_name) values ("${menu}", "${price}", "${nick_name}")`;
   try {
     [rows] = await connection.query(query);
-    res.status(200).json({
-      success: true,
-      rows: rows,
-    });
+    res.status(200).json({ success: true, rows });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
   }
