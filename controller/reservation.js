@@ -159,6 +159,11 @@ exports.my_order_record = async (req, res, next) => {
     res.status(200).json({
       success: true,
       rows,
+      menu: rows[0].menu,
+      price: rows[0].price,
+      time: rows[0].time,
+      take_out: rows[0].take_out,
+      people_number: rows[0].people_number,
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
