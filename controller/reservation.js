@@ -9,7 +9,9 @@ exports.order = async (req, res, next) => {
   let price = req.body.price;
   let nick_name = req.body.nick_name;
 
-  let query = `insert into beauty_reservation (menu, price, nick_name) values ("${menu}", "${price}", "${nick_name}")`;
+  let query =
+    `insert into beauty_reservation (menu, price, nick_name) values ("${menu}", "${price}", "${nick_name}");` +
+    `insert into reservations(nick_name,menu,price,take_out,people_number,time) select nick_name,menu,price,take_out,people_number,time from beauty_reservation;`;
   try {
     [rows] = await connection.query(query);
     res.status(200).json({
