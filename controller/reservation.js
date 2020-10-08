@@ -80,6 +80,20 @@ exports.add_store = async (req, res, next) => {
   }
 };
 
+exports.del_store = async (req, res, next) => {
+  let nick_name = req.query.nick_name;
+
+  let query = `update beauty_reservation set take_out = 0, 
+  people_number = null, time = null where nick_name = "${nick_name}"`;
+
+  try {
+    [rows] = await connection.query(query);
+    res.status(200).json({ success: true, rows: rows });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e });
+  }
+};
+
 // @desc        추가 필수 사항(take_out)
 // @PUT         api/v1/reservation/add
 // @request     nick_name, take_out
