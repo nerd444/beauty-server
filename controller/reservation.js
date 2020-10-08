@@ -83,8 +83,8 @@ exports.add_store = async (req, res, next) => {
 exports.del_store = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
-  let query = `update beauty_reservation set take_out = null, 
-  people_number = null, time = null where nick_name = "${nick_name}"`;
+  let query = `update beauty_reservation set take_out = 0, 
+  people_number = 0, time = 0 where nick_name = "${nick_name}"`;
 
   try {
     [rows] = await connection.query(query);
