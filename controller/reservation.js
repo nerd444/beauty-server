@@ -124,9 +124,9 @@ exports.order_total = async (req, res, next) => {
 // @request     menu, price, nick_name
 // @respones    success , rows
 exports.order_cancle = async (req, res, next) => {
-  let nick_name = req.body.nick_name;
-  let menu = req.body.menu;
-  let price = req.body.price;
+  let nick_name = req.query.nick_name;
+  let menu = req.query.menu;
+  let price = req.query.price;
 
   let query = `delete from beauty_reservation where nick_name = "${nick_name}" and menu = "${menu}" and price = "${price}"`;
 
