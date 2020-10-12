@@ -27,6 +27,7 @@ exports.order = async (req, res, next) => {
 // @request     menu, price, nick_name
 // @respones    success , rows
 exports.PaymentOrder = async (req, res, next) => {
+  // 다른 테이블에 있는 정보 인설트 하는 코드
   let query = `insert into reservations(nick_name,menu,price,take_out,people_number,time) select nick_name,menu,price,take_out,people_number,time from beauty_reservation;`;
   try {
     [rows] = await connection.query(query);
