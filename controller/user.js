@@ -2,11 +2,11 @@ const connection = require("../db/myconnection");
 const validator = require("validator");
 
 // desc 유저 닉네임 이메일 생성날짜
-// @POST api/v1/user/
+// @POST api/v1/user/add
 // @request   nick_name ,email
 // @respones  success ,nick_name: row[0].nick_name
 
-exports.login = async (req, res, next) => {
+exports.CreatedatUser = async (req, res, next) => {
   let email = req.body.email;
   let nick_name = req.body.nick_name;
   let phone_number = req.body.phone_number;
@@ -28,6 +28,10 @@ exports.login = async (req, res, next) => {
   }
 };
 
+// desc 카카오톡 계정 있는지 확인
+// @POST api/v1/user/check
+// @request   nick_name ,email
+// @respones  success ,nick_name: row[0].nick_name
 exports.check = async (req, res, next) => {
   let email = req.query.email;
 
@@ -46,6 +50,10 @@ exports.check = async (req, res, next) => {
   }
 };
 
+// desc 유저 비밀번호 변경
+// @POST api/v1/user/change
+// @request   nick_name , phone_number , new_nick_name
+// @respones  success ,nick_name: row[0].nick_name
 exports.change = async (req, res, next) => {
   let phone_number = req.query.phone_number;
   let new_nick_name = req.query.new_nick_name;
@@ -67,22 +75,9 @@ exports.change = async (req, res, next) => {
   }
 };
 
-exports.del = async (req, res, next) => {
-  let nick_name = req.query.nick_name;
-
-  let query = `delete from beauty_user where nick_name = "${nick_name}"`;
-
-  try {
-    [result] = await connection.query(query);
-    res.status(200).json({ success: true });
-  } catch (e) {
-    res.status(500).json({ success: false });
-  }
-};
-
 // @desc 회원가입
 // @route POST /api/v1/user/add
-// @ reqest nick_name , passwd , name , phone
+// @ reqest nick_name , phone_number , info_agree
 // @ response  success
 exports.beautyUser = async (req, res, next) => {
   let nick_name = req.body.nick_name;
@@ -111,7 +106,7 @@ exports.beautyUser = async (req, res, next) => {
 
 // @desc 로그인
 // @route GET /api/v1/user/login
-// @ reqest email , passwd
+// @ reqest nick_name , phone_number
 // @ response  success , token
 exports.loginUser = async (req, res, next) => {
   let nick_name = req.query.nick_name;
@@ -134,27 +129,27 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-//@desc  회원탈퇴
-//@route delete /api/v1/user/del
-//@requset token
-//@response  success
+// desc 회원탈퇴
+// @POST api/v1/user/del
+// @request   nick_name
+// @respones  success ,nick_name: row[0].nick_name
 exports.deleteUser = async (req, res, next) => {
-  let nick_name = req.body.nick_name;
-  let phone_number = req.body.phone_number;
-  let query = `delete from beauty_user where nick_name = "${nick_name}"
-   and  phone_number = "${phone_number}"`;
+  let nick_name = req.query.nick_name;
+
+  let query = `delete from beauty_user where nick_name = "${nick_name}"`;
+
   try {
     [result] = await connection.query(query);
     res.status(200).json({ success: true });
   } catch (e) {
-    res.status(400).json({ success: false });
+    res.status(500).json({ success: false });
   }
 };
 
 //@desc  아이디찾기
-//@route  GET /api/v1/user/findId
-//@request  name, phone
-
+//@route  GET /api/v1/user/find_Id
+//@request  phone_number
+//@response  success
 exports.findId = async (req, res, next) => {
   let phone_number = req.query.phone_number;
 
@@ -168,9 +163,9 @@ exports.findId = async (req, res, next) => {
 };
 
 //@desc 아이디 중복확인 api
-//@route  GET/api/v1/user/findPasswd
-//@request  nickname
-
+//@route  GET/api/v1/user/check_id
+//@request  nick_name
+//@response  success
 exports.checkId = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
@@ -189,9 +184,9 @@ exports.checkId = async (req, res, next) => {
 };
 
 //@desc 내정보 불러오기
-//@route GET /api/v1/user/me
-//@request  user_id
-
+//@route GET /api/v1/user/my_info
+//@request  nick_name
+//@response  success
 exports.myInfo = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 

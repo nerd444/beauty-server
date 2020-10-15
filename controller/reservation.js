@@ -1,6 +1,6 @@
 const connection = require("../db/myconnection");
 
-// @desc        주문(동방신기)(결제할때 리스트에 추가해주는거)
+// @desc        주문(동방신기)(결제창에 리스트  띄워 줄려고 데이터 넣는 api)
 // @POST        api/v1/reservation/order
 // @request     menu, price, nick_name
 // @respones    success , rows
@@ -62,7 +62,7 @@ exports.order_record = async (req, res, next) => {
 };
 
 // @desc        추가 필수 사항(store)
-// @PUT         api/v1/reservation/add
+// @PUT         api/v1/reservation/add_store
 // @request     nick_name, take_out
 // @respones    success , rows
 exports.add_store = async (req, res, next) => {

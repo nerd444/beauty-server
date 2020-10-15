@@ -1,5 +1,4 @@
 const connection = require("../db/myconnection");
-const { off } = require("../db/myconnection");
 
 // @desc 리뷰 작성
 // @POST api/v1/review/add
