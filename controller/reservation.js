@@ -96,8 +96,8 @@ exports.del_store = async (req, res, next) => {
 };
 
 // @desc        추가 필수 사항(take_out)
-// @PUT         api/v1/reservation/add
-// @request     nick_name, take_out
+// @PUT         api/v1/reservation/add_take_out
+// @request     nick_name, time
 // @respones    success , rows
 exports.add_take_out = async (req, res, next) => {
   let nick_name = req.query.nick_name;
@@ -134,7 +134,7 @@ exports.order_total = async (req, res, next) => {
   }
 };
 
-// @desc        주문취소하기
+// @desc        주문취소하기 (체크 박스 해제 했을 때)
 // @DELETE      api/v1/reservation/delete
 // @request     menu, price, nick_name
 // @respones    success , rows
@@ -155,7 +155,7 @@ exports.order_cancle = async (req, res, next) => {
   }
 };
 
-// @desc        주문취소(뒤로가기)
+// @desc        주문취소 (뒤로가기 , 다시 예약창으로 왔을 때)
 // @DELETE      api/v1/reservation/cancle
 // @request     menu, price, nick_name
 // @respones    success , rows
