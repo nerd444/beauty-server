@@ -7,6 +7,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   waitForConnetions: true,
   connectionLimit: 10,
+  multipleStatements: true, //다중쿼리 처리
 });
 //await 으로 사용하기 위해 , 프라미스로 저장.
 const connection = pool.promise();
