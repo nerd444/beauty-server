@@ -44,6 +44,7 @@ exports.PaymentOrder = async (req, res, next) => {
 exports.order_record = async (req, res, next) => {
   let nick_name = req.query.nick_name;
 
+<<<<<<< Updated upstream
   let query = `select menu, price, take_out, people_number, time from beauty_reservation where nick_name = "${nick_name}"`;
 
   try {
@@ -72,6 +73,12 @@ exports.add_store = async (req, res, next) => {
 
   let query = `update beauty_reservation set take_out = 0, 
   people_number = "${people_number}", time = "${time}" where nick_name = "${nick_name}"`;
+=======
+  let menu;
+  let price;
+
+  let query = `select * from beauty_reservation where nick_name = "${nick_name}"`;
+>>>>>>> Stashed changes
 
   try {
     [rows] = await connection.query(query);
@@ -188,12 +195,17 @@ exports.my_order_record = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+<<<<<<< Updated upstream
       rows,
       menu: rows[0].menu,
       price: rows[0].price,
       time: rows[0].time,
       take_out: rows[0].take_out,
       people_number: rows[0].people_number,
+=======
+      menu,
+      price,
+>>>>>>> Stashed changes
     });
   } catch (e) {
     res.status(400).json({ success: false, error: e });
